@@ -1,0 +1,17 @@
+@import '../../public/styles/constants';
+
+.header {
+  font-size: 1.8rem;
+  height: 80px;
+  background-color: $color-layout;
+  display: flex;
+  align-items: center;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  gap: 30px;
+  align-items: center;
+}
