@@ -1,5 +1,5 @@
-import styles from './page.module.scss';
 import ConverterForm from '@/components/converterForm/ConverterForm';
+import styles from './page.module.scss';
 
 export default function Home() {
   return (
