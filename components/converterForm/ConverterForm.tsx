@@ -1,30 +1,43 @@
 'use client';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from '@/redux/store';
-import { FormData, formReducer, selectFormData, setFormData } from '@/redux/slices/form';
+import { FormData, resetFormData, selectFormData, setFormData } from '@/redux/slices/form';
+import { ApiResponse, getCurrencyList, getPairCourse } from '@/utilities/utilities';
 import styles from './ConverterForm.module.scss';
 
-const ConverterForm = () => {
-  const formData = useSelector(selectFormData);
+const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
+  const formReduxData = useSelector(selectFormData);
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     mode: 'onChange',
     reValidateMode: 'onChange',
     shouldUnregister: false,
     defaultValues: {
-      fromCurrency: formData.fromCurrency,
-      amount: formData.amount,
-      toCurrency: formData.toCurrency,
-      result: formData.result,
+      fromCurrency: formReduxData.fromCurrency,
+      amount: formReduxData.amount,
+      toCurrency: formReduxData.toCurrency,
+      result: formReduxData.result,
     },
   });
+  const [convertedResult, setConvertedResult] = useState(0);
 
-  const myHandleSubmit: SubmitHandler<FormData> = (data) => {}; //TODO
+  const myHandleSubmit: SubmitHandler<FormData> = async (submitData) => {
+    if (submitData.fromCurrency && submitData.toCurrency) {
+      const rate = await getPairCourse(submitData.fromCurrency, submitData.toCurrency);
+
+      if (typeof rate !== 'string' && submitData.amount && rate.conversion_rate) {
+        const result = submitData.amount * rate.conversion_rate;
+        setConvertedResult(result);
+        dispatch(setFormData({ result: result }));
+      }
+    }
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (e.target.name) {
@@ -32,8 +45,14 @@ const ConverterForm = () => {
     }
   };
 
+  const handleReset = () => {
+    dispatch(resetFormData());
+    setConvertedResult(0);
+    reset();
+  };
+
   return (
-    <form className={styles.form} onSubmit={handleSubmit(myHandleSubmit)}>
+    <form className={styles.form} onSubmit={handleSubmit(myHandleSubmit)} onReset={handleReset}>
       <div className={styles.currency_block}>
         <label className={styles.label}>
           From currency:
@@ -43,8 +62,7 @@ const ConverterForm = () => {
             })}
             onChange={(e) => handleChange(e)}
           >
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
+            {typeof ratesData !== 'string' && getCurrencyList(ratesData)}
           </select>
         </label>
         <input
@@ -71,13 +89,14 @@ const ConverterForm = () => {
             })}
             onChange={(e) => handleChange(e)}
           >
-            <option value="option1">Option 1</option>
+            {typeof ratesData !== 'string' && getCurrencyList(ratesData)}
           </select>
         </label>
         <input
           type="number"
           {...register('result')}
           onChange={(e) => handleChange(e)}
+          value={convertedResult}
           readOnly
         ></input>
       </div>

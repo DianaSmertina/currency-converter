@@ -1,11 +1,14 @@
 import ConverterForm from '@/components/converterForm/ConverterForm';
+import { getRatesForBase } from '@/utilities/utilities';
 import styles from './page.module.scss';
 
-export default function Home() {
+export default async function Home() {
+  const rates = await getRatesForBase('USD');
+
   return (
     <div className={'wrapper ' + styles.wrapper}>
       <h2>Currency Converter</h2>
-      <ConverterForm />
+      <ConverterForm ratesData={rates} />
     </div>
   );
 }

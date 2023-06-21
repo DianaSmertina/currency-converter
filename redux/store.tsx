@@ -1,19 +1,33 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { formReducer } from './slices/form';
+import { PreloadedState } from '@reduxjs/toolkit';
+import * as toolkitRaw from '@reduxjs/toolkit';
 import {
   useSelector as useReduxSelector,
   useDispatch as useReduxDispatch,
   type TypedUseSelectorHook,
 } from 'react-redux';
+import { formReducer } from './slices/form';
+import { exchangeRateApi } from './exchangeRateApi';
 
-export const store = configureStore({
-  reducer: {
-    formReducer,
-  },
+const { combineReducers, configureStore } = ((toolkitRaw as TypeToolkitRaw).default ??
+  toolkitRaw) as typeof toolkitRaw;
+type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
+
+export const rootReducer = combineReducers({
+  formReducer,
+  [exchangeRateApi.reducerPath]: exchangeRateApi.reducer,
 });
 
-export const useDispatch = () => useReduxDispatch<AppDispatch>()
-export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector
+export function setupStore(preloadedState?: PreloadedState<RootState>) {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMidlware) => getDefaultMidlware().concat(exchangeRateApi.middleware),
+    preloadedState,
+  });
+}
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export const useDispatch = () => useReduxDispatch<AppDispatch>();
+export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];

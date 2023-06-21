@@ -20,13 +20,17 @@ export const formSlice = createSlice({
   initialState,
   reducers: {
     setFormData(state, action: PayloadAction<FormData>) {
-      for (let key in action.payload) {
+      for (const key in action.payload) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         state[key as keyof FormData] = action.payload[key as keyof FormData] as any;
       }
+    },
+    resetFormData() {
+      return initialState;
     },
   },
 });
 
-export const { setFormData } = formSlice.actions;
+export const { setFormData, resetFormData } = formSlice.actions;
 export const selectFormData = (state: RootState) => state.formReducer;
 export const formReducer = formSlice.reducer;
