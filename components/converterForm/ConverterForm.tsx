@@ -22,7 +22,6 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
       fromCurrency: formReduxData.fromCurrency,
       amount: formReduxData.amount,
       toCurrency: formReduxData.toCurrency,
-      result: formReduxData.result,
     },
   });
   const [convertedResult, setConvertedResult] = useState(0);
@@ -96,7 +95,7 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
           type="number"
           {...register('result')}
           onChange={(e) => handleChange(e)}
-          value={convertedResult}
+          value={convertedResult || formReduxData.result || 0}
           readOnly
         ></input>
       </div>

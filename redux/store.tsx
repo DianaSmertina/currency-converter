@@ -6,7 +6,7 @@ import {
   type TypedUseSelectorHook,
 } from 'react-redux';
 import { formReducer } from './slices/form';
-import { exchangeRateApi } from './exchangeRateApi';
+import { ratesReducer } from './slices/rates';
 
 const { combineReducers, configureStore } = ((toolkitRaw as TypeToolkitRaw).default ??
   toolkitRaw) as typeof toolkitRaw;
@@ -14,13 +14,12 @@ type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
 
 export const rootReducer = combineReducers({
   formReducer,
-  [exchangeRateApi.reducerPath]: exchangeRateApi.reducer,
+  ratesReducer,
 });
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {
   return configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMidlware) => getDefaultMidlware().concat(exchangeRateApi.middleware),
     preloadedState,
   });
 }

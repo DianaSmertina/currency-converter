@@ -41,11 +41,13 @@ export async function getPairCourse(
 }
 
 export function getCurrencyList(apiRatesResponses: ApiResponse) {
-  return Object.keys(apiRatesResponses.conversion_rates).map((currency) => {
-    return (
-      <option key={currency} value={currency}>
-        {currency}
-      </option>
-    );
-  });
+  if (typeof apiRatesResponses.conversion_rates === 'object') {
+    return Object.keys(apiRatesResponses.conversion_rates).map((currency) => {
+      return (
+        <option key={currency} value={currency}>
+          {currency}
+        </option>
+      );
+    });
+  }
 }
