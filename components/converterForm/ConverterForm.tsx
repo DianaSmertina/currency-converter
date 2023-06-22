@@ -33,7 +33,7 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
       const rate = await getPairCourse(submitData.fromCurrency, submitData.toCurrency);
 
       if (typeof rate === 'object' && submitData.amount && rate.conversion_rate) {
-        const result = submitData.amount * rate.conversion_rate;
+        const result = parseFloat((submitData.amount * rate.conversion_rate).toFixed(2));
         setConvertedResult(result);
         dispatch(setFormData({ result: result }));
       }
@@ -80,7 +80,7 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
           onChange={(e) => handleChange(e)}
           className="form_field"
         ></input>
-        <div className={styles.error}>{errors.amount && 'Enter number greater than 0'}</div>
+        <div className={styles.error}>{errors.amount && 'Enter number > 0'}</div>
       </div>
       <div className={styles.currency_block}>
         <label className={styles.label}>
