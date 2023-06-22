@@ -5,8 +5,11 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={'wrapper ' + styles.wrapper}>
-        <Link href="/">Converter</Link>
-        <Link href="/rates">Rates</Link>
+        <div className={styles.logo}></div>
+        <nav className={styles.navigation}>
+          <Link href="/">Converter</Link>
+          <Link href="/rates">Rates</Link>
+        </nav>
       </div>
     </header>
   );

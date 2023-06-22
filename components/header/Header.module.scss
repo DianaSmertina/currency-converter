@@ -11,7 +11,19 @@
 .wrapper {
   width: 100%;
   display: flex;
-  justify-content: right;
-  gap: 30px;
+  justify-content: space-between;
   align-items: center;
+}
+
+.logo {
+  background-image: url(../../public/images/currencies.png);
+  width: 70px;
+  height: 70px;
+  background-size: 70px;
+  background-repeat: no-repeat;
+}
+
+.navigation {
+  display: flex;
+  gap: 20px;
 }

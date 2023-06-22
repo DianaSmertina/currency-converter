@@ -7,7 +7,7 @@ export default async function Home() {
 
   return (
     <div className={'wrapper ' + styles.wrapper}>
-      <h2>Currency Converter</h2>
+      <h2 className={styles.title}>Currency Converter</h2>
       <ConverterForm ratesData={rates} />
     </div>
   );

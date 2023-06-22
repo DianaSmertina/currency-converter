@@ -15,8 +15,8 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
     formState: { errors },
     reset,
   } = useForm<FormData>({
-    mode: 'onChange',
-    reValidateMode: 'onChange',
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
     shouldUnregister: false,
     defaultValues: {
       fromCurrency: formReduxData.fromCurrency,
@@ -64,24 +64,25 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
               required: true,
             })}
             onChange={(e) => handleChange(e)}
+            className="form_field"
           >
             {typeof ratesData !== 'string' && getCurrencyList(ratesData)}
           </select>
         </label>
+        <div className={styles.error}>{errors.fromCurrency && 'Select currency'}</div>
         <input
           type="number"
           {...register('amount', {
             required: true,
             validate: (value) => {
-              if (value && value <= 0) {
-                return 'Number must be greater than 0';
-              }
+              if (value && value <= 0) return false;
               return true;
             },
           })}
           onChange={(e) => handleChange(e)}
+          className="form_field"
         ></input>
-        {errors.amount && <div>{errors.amount.message}</div>}
+        <div className={styles.error}>{errors.amount && 'Enter number greater than 0'}</div>
       </div>
       <div className={styles.currency_block}>
         <label className={styles.label}>
@@ -91,20 +92,23 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
               required: true,
             })}
             onChange={(e) => handleChange(e)}
+            className="form_field"
           >
             {typeof ratesData !== 'string' && getCurrencyList(ratesData)}
           </select>
         </label>
+        <div className={styles.error}>{errors.fromCurrency && 'Select currency'}</div>
         <input
           {...register('result')}
           onChange={(e) => handleChange(e)}
           value={convertedResult || formReduxData.result || 0}
           readOnly
+          className="form_field"
         ></input>
       </div>
       <div className={styles.buttons_container}>
-        <input type="submit" value="Submit" />
-        <input type="reset" value="Reset" />
+        <input type="submit" value="Submit" className="btn" />
+        <input type="reset" value="Reset" className="btn" />
       </div>
     </form>
   );

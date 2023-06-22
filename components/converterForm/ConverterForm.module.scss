@@ -1,8 +1,10 @@
+@import '../../public/styles/constants';
+
 .form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto auto;
-  gap: 10px;
+  gap: 20px;
 }
 
 .currency_block {
@@ -14,10 +16,20 @@
 .label {
   display: flex;
   flex-direction: column;
+  font-size: 1.3rem;
 }
 
 .buttons_container {
   grid-column: span 2;
   display: flex;
   justify-content: space-around;
+  margin-top: 10px;
+}
+
+.error {
+  height: 10px;
+  font-size: 1.3rem;
+  color: $error-color;
+  margin-top: -3px;
+  margin-bottom: 3px;
 }
