@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { selectRatesData } from '@/redux/slices/rates';
 import { useSelector } from '@/redux/store';
 import { getRatesForBase } from '@/utilities/utilities';
+import Loading from '../loading/Loading';
 
 import styles from './RateList.module.scss';
 
@@ -23,7 +24,7 @@ const RatesList = () => {
   }, [ratesReduxData]);
 
   if (!ratesList) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (

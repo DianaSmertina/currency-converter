@@ -52,10 +52,6 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
     reset();
   };
 
-  if (!ratesData) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <form className={styles.form} onSubmit={handleSubmit(myHandleSubmit)} onReset={handleReset}>
       <div className={styles.currency_block}>
