@@ -1,0 +1,16 @@
+@import '../../public/styles/constants';
+
+.list {
+  font-size: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 30px;
+  row-gap: 10px;
+  text-align: center;
+  @media (max-width: $content-small-width) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: $mobile-big-width) {
+    grid-template-columns: 1fr;
+  }
+}
