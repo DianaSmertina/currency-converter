@@ -1,8 +1,10 @@
 'use client';
 import { ChangeEvent, useEffect, useState } from 'react';
+
 import { useDispatch, useSelector } from '@/redux/store';
 import { selectRatesData, setBaseCurrency } from '@/redux/slices/rates';
 import { ApiResponse, getCurrencyList } from '@/utilities/utilities';
+
 import styles from './BaseCurrencySwitcher.module.scss';
 
 const BaseCurrencySwitcher = ({ ratesData }: { ratesData: string | ApiResponse }) => {
@@ -22,7 +24,7 @@ const BaseCurrencySwitcher = ({ ratesData }: { ratesData: string | ApiResponse }
 
   return (
     <>
-      <p className={styles.titile}>Choose your currency:</p>
+      <p className={styles.title}>Choose your currency:</p>
       <select
         value={baseCurrencyState}
         onChange={(e) => handleChange(e)}

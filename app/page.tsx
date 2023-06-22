@@ -1,5 +1,6 @@
 import ConverterForm from '@/components/converterForm/ConverterForm';
 import { getRatesForBase } from '@/utilities/utilities';
+
 import styles from './page.module.scss';
 
 export default async function Home() {

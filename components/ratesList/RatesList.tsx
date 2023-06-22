@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
+
 import { selectRatesData } from '@/redux/slices/rates';
 import { useSelector } from '@/redux/store';
 import { getRatesForBase } from '@/utilities/utilities';
+
 import styles from './RateList.module.scss';
 
 const RatesList = () => {

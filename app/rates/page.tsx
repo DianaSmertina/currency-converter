@@ -1,6 +1,7 @@
 import BaseCurrencySwitcher from '@/components/baseCurrencySwitcher/BaseCurrencySwitcher';
 import { getRatesForBase } from '@/utilities/utilities';
 import RatesList from '@/components/ratesList/RatesList';
+
 import styles from './page.module.scss';
 
 export default async function Rates() {

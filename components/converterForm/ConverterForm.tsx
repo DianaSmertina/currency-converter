@@ -1,9 +1,11 @@
 'use client';
 import { ChangeEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+
 import { useSelector, useDispatch } from '@/redux/store';
 import { FormData, resetFormData, selectFormData, setFormData } from '@/redux/slices/form';
 import { ApiResponse, getCurrencyList, getPairCourse } from '@/utilities/utilities';
+
 import styles from './ConverterForm.module.scss';
 
 const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
@@ -30,7 +32,7 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
     if (submitData.fromCurrency && submitData.toCurrency) {
       const rate = await getPairCourse(submitData.fromCurrency, submitData.toCurrency);
 
-      if (typeof rate !== 'string' && submitData.amount && rate.conversion_rate) {
+      if (typeof rate === 'object' && submitData.amount && rate.conversion_rate) {
         const result = submitData.amount * rate.conversion_rate;
         setConvertedResult(result);
         dispatch(setFormData({ result: result }));
