@@ -9,9 +9,9 @@ export type FormData = {
 };
 
 const initialState: FormData = {
-  fromCurrency: '',
+  fromCurrency: 'USD',
   amount: null,
-  toCurrency: '',
+  toCurrency: 'BYN',
   result: null,
 };
 

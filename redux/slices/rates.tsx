@@ -3,14 +3,10 @@ import { RootState } from '../store';
 
 export type RateData = {
   baseCurrency: string;
-  rates: object;
-  currencyList: Array<string>;
 };
 
 const initialState: RateData = {
   baseCurrency: 'USD',
-  rates: {},
-  currencyList: [],
 };
 
 export const ratesSlice = createSlice({
