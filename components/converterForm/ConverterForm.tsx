@@ -50,6 +50,10 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
     reset();
   };
 
+  if (!ratesData) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(myHandleSubmit)} onReset={handleReset}>
       <div className={styles.currency_block}>
@@ -92,7 +96,6 @@ const ConverterForm = ({ ratesData }: { ratesData: ApiResponse | string }) => {
           </select>
         </label>
         <input
-          type="number"
           {...register('result')}
           onChange={(e) => handleChange(e)}
           value={convertedResult || formReduxData.result || 0}

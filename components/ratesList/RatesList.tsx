@@ -1,28 +1,34 @@
 'use client';
-import { useEffect } from 'react';
-import { selectRatesData, setRates } from '@/redux/slices/rates';
-import { useSelector, useDispatch } from '@/redux/store';
+import { useEffect, useState } from 'react';
+import { selectRatesData } from '@/redux/slices/rates';
+import { useSelector } from '@/redux/store';
 import { getRatesForBase } from '@/utilities/utilities';
 
 const RatesList = () => {
   const ratesReduxData = useSelector(selectRatesData);
-  const dispatch = useDispatch();
+  const [ratesList, setRatesList] = useState<object>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const ratesObject = await getRatesForBase(ratesReduxData.baseCurrency);
-      if (typeof ratesObject === 'object' && ratesObject.conversion_rates) {
-        dispatch(setRates(ratesObject.conversion_rates));
+      const response = await getRatesForBase(ratesReduxData.baseCurrency);
+      if (typeof response === 'object') {
+        setRatesList(response.conversion_rates);
       }
     };
-    fetchData(); //TODO: fix for first base currency when component mount
-  }, []);
+
+    fetchData();
+  }, [ratesReduxData]);
+
+  if (!ratesList) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <ul>
-      {Object.entries(ratesReduxData.rates).map((el) => {
-        return <li key={el[0]}>{`${el[0]}: ${el[1]}`}</li>;
-      })}
+      {ratesList &&
+        Object.entries(ratesList).map((el) => {
+          return <li key={el[0]}>{`1 ${ratesReduxData.baseCurrency} = ${el[1]} ${el[0]}`}</li>;
+        })}
     </ul>
   );
 };

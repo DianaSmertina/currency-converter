@@ -1,8 +1,8 @@
 'use client';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '@/redux/store';
-import { selectRatesData, setBaseCurrency, setRates } from '@/redux/slices/rates';
-import { ApiResponse, getCurrencyList, getRatesForBase } from '@/utilities/utilities';
+import { selectRatesData, setBaseCurrency } from '@/redux/slices/rates';
+import { ApiResponse, getCurrencyList } from '@/utilities/utilities';
 
 const BaseCurrencySwitcher = ({ ratesData }: { ratesData: string | ApiResponse }) => {
   const ratesReduxData = useSelector(selectRatesData);
@@ -17,10 +17,6 @@ const BaseCurrencySwitcher = ({ ratesData }: { ratesData: string | ApiResponse }
     const newBaseCurrency = e.target.value;
     dispatch(setBaseCurrency(newBaseCurrency));
     setBaseCurrencyState(newBaseCurrency);
-    const ratesObject = await getRatesForBase(newBaseCurrency);
-    if (typeof ratesObject === 'object' && ratesObject.conversion_rates) {
-      dispatch(setRates(ratesObject.conversion_rates));
-    }
   };
 
   return (
